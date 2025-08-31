@@ -1,4 +1,13 @@
 <?php
+/**
+ * タイピングゲーム機能
+ */
+
+// セキュリティ: 直接アクセスを防ぐ
+if (!defined('ABSPATH')) {
+    exit;
+}
+
 function js_typing_new($atts){
     $section = $_GET["section"];
     global $wpdb;
@@ -95,5 +104,7 @@ EOD;
 
     return "";
 }
-add_shortcode('jstype','js_typing_new');
+
+// ショートコードを登録
+add_shortcode('jstype', 'js_typing_new');
 ?>
