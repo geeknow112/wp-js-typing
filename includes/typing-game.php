@@ -41,7 +41,7 @@ function js_typing_new($atts){
     echo '<div id="start"></div>';
     echo '<div id="number"></div>';
     echo '<div id="dict_output"></div>';
-    echo '<img id="img" src="">';
+    echo '<div id="img" style="font-size: 18px; font-weight: bold; margin: 10px 0;">スコア: 0</div>';
 
 echo <<< EOD
 <script>
