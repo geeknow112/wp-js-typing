@@ -3,6 +3,9 @@ wp-config.php
 wp-content/uploads/
 wp-content/cache/
 
+# Site-specific config
+config.php
+
 # IDE
 .vscode/
 .idea/

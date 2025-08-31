@@ -8,11 +8,22 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+// 設定ファイルを読み込み
+if (file_exists(plugin_dir_path(__FILE__) . '../config.php')) {
+    require_once plugin_dir_path(__FILE__) . '../config.php';
+} else {
+    // デフォルト設定
+    define('TYPING_SITE_URL', 'https://your-site.com');
+    define('TYPING_IMAGE_PATH', '/wp-content/uploads/duo_image/');
+    define('TYPING_TABLE_SENTENCES', 'typing_sentences');
+    define('TYPING_TABLE_DICTIONARY', 'typing_dictionary');
+}
+
 function js_typing_new($atts){
     $section = $_GET["section"];
     global $wpdb;
     $no = $section;
-    $sql = "select * from typing_sentences where section = ". $no. ";";
+    $sql = "select * from " . TYPING_TABLE_SENTENCES . " where section = ". $no. ";";
     $rows = $wpdb->get_results($sql);
 
     foreach ($rows as $i => $row) {
@@ -22,7 +33,7 @@ function js_typing_new($atts){
         echo '<p class="sentence" id="'. $row->id. '" style="display : none;">'. $str. '</p>';
     }
 
-    $sql_dict = "select word, japanese from typing_dictionary;";
+    $sql_dict = "select word, japanese from " . TYPING_TABLE_DICTIONARY . ";";
     $dict = $wpdb->get_results($sql_dict);
     foreach ($dict as $i => $d) {
         $dc[$d->word] = $d->japanese;
@@ -41,7 +52,9 @@ function js_typing_new($atts){
     echo '<div id="start"></div>';
     echo '<div id="number"></div>';
     echo '<div id="dict_output"></div>';
-    echo '<div id="img" style="font-size: 18px; font-weight: bold; margin: 10px 0;">スコア: 0</div>';
+    echo '<img id="img" src="" style="max-width: 300px; height: auto; margin: 10px 0;">';
+
+    $image_base_url = TYPING_SITE_URL . TYPING_IMAGE_PATH;
 
 echo <<< EOD
 <script>
@@ -71,6 +84,7 @@ if (typeof window.typingGameInitialized === 'undefined') {
     document.getElementById("start").innerHTML = Q[Q_No].substring(Q_i, Q_l);
     document.getElementById("number").innerHTML = ids[Q_No];
     document.getElementById("dict_output").innerHTML = dic[Q_No].replace(/;/g, '&emsp;&emsp;');
+    document.getElementById("img").src = "{$image_base_url}" + ids[Q_No] + ".png";
 
     window.addEventListener("keydown", function(event) {
         var keyCode = event.key;
@@ -95,6 +109,7 @@ if (typeof window.typingGameInitialized === 'undefined') {
                 document.getElementById("start").innerHTML = Q[Q_No].substring(Q_i, Q_l);
                 document.getElementById("number").innerHTML = ids[Q_No];
                 document.getElementById("dict_output").innerHTML = dic[Q_No].replace(/;/g, '&emsp;&emsp;');
+                document.getElementById("img").src = "{$image_base_url}" + ids[Q_No] + ".png";
             }
         }
     });
