@@ -12,7 +12,7 @@ function js_typing_new($atts){
     $section = $_GET["section"];
     global $wpdb;
     $no = $section;
-    $sql = "select * from hack_duo where section = ". $no. ";";
+    $sql = "select * from typing_sentences where section = ". $no. ";";
     $rows = $wpdb->get_results($sql);
 
     foreach ($rows as $i => $row) {
@@ -22,7 +22,7 @@ function js_typing_new($atts){
         echo '<p class="sentence" id="'. $row->id. '" style="display : none;">'. $str. '</p>';
     }
 
-    $sql_dict = "select word, japanese from hack_duo_dict;";
+    $sql_dict = "select word, japanese from typing_dictionary;";
     $dict = $wpdb->get_results($sql_dict);
     foreach ($dict as $i => $d) {
         $dc[$d->word] = $d->japanese;

@@ -23,8 +23,8 @@ git clone https://github.com/geeknow112/wp-js-typing.git
 - Vimium拡張機能対応
 
 ## 必要なデータベーステーブル
-- `hack_duo`: 英語文章データ
-- `hack_duo_dict`: 英日辞書データ
+- `typing_sentences`: 英語文章データ
+- `typing_dictionary`: 英日辞書データ
 
 ## 修正履歴
 - Chrome `replaceAll()` 互換性修正
